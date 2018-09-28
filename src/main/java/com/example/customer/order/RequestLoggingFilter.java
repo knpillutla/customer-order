@@ -1,4 +1,4 @@
-package com.example.order;
+package com.example.customer.order;
 
 import static net.logstash.logback.marker.Markers.appendEntries;
 

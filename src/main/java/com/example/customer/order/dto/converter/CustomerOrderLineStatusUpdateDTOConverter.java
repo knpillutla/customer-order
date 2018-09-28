@@ -1,4 +1,4 @@
-package com.example.order.dto.converter;
+package com.example.customer.order.dto.converter;
 
 import org.springframework.stereotype.Component;
 

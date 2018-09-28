@@ -1,4 +1,4 @@
-package com.example.order.endpoint.rest;
+package com.example.customer.order.endpoint.rest;
 
 public class ErrorRestResponse {
 	int responseCode;

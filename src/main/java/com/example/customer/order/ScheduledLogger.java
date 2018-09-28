@@ -1,4 +1,4 @@
-package com.example.order;
+package com.example.customer.order;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;

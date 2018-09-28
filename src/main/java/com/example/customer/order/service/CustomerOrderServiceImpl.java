@@ -1,4 +1,4 @@
-package com.example.order.service;
+package com.example.customer.order.service;
 
 import java.util.Optional;
 
@@ -6,6 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.customer.order.db.CustomerOrder;
+import com.example.customer.order.db.CustomerOrderLine;
+import com.example.customer.order.db.CustomerOrderLineRepository;
+import com.example.customer.order.db.CustomerOrderRepository;
+import com.example.customer.order.dto.converter.CustomerOrderDTOConverter;
 import com.example.customer.order.dto.events.CustomerOrderAllocatedEvent;
 import com.example.customer.order.dto.events.CustomerOrderCreatedEvent;
 import com.example.customer.order.dto.events.CustomerOrderCreationFailedEvent;
@@ -15,11 +20,6 @@ import com.example.customer.order.dto.requests.CustomerOrderCreationRequestDTO;
 import com.example.customer.order.dto.requests.CustomerOrderLineStatusUpdateRequestDTO;
 import com.example.customer.order.dto.requests.CustomerOrderUpdateRequestDTO;
 import com.example.customer.order.dto.responses.CustomerOrderDTO;
-import com.example.order.db.CustomerOrder;
-import com.example.order.db.CustomerOrderLine;
-import com.example.order.db.CustomerOrderLineRepository;
-import com.example.order.db.CustomerOrderRepository;
-import com.example.order.dto.converter.CustomerOrderDTOConverter;
 import com.example.util.service.EventPublisher;
 
 import lombok.extern.slf4j.Slf4j;

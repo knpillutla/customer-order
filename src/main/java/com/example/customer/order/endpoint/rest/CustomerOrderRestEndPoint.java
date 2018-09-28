@@ -1,4 +1,4 @@
-package com.example.order.endpoint.rest;
+package com.example.customer.order.endpoint.rest;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ import com.example.customer.order.dto.events.CustomerOrderCreationFailedEvent;
 import com.example.customer.order.dto.events.CustomerOrderUpdateFailedEvent;
 import com.example.customer.order.dto.requests.CustomerOrderCreationRequestDTO;
 import com.example.customer.order.dto.requests.CustomerOrderUpdateRequestDTO;
-import com.example.order.service.CustomerOrderService;
+import com.example.customer.order.service.CustomerOrderService;
 
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;

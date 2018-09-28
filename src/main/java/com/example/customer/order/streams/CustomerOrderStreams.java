@@ -1,4 +1,4 @@
-package com.example.order.streams;
+package com.example.customer.order.streams;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.cloud.stream.annotation.Output;

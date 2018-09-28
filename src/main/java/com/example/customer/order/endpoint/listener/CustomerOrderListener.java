@@ -1,12 +1,12 @@
-package com.example.order.endpoint.listener;
+package com.example.customer.order.endpoint.listener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.stereotype.Component;
 
 import com.example.customer.order.dto.events.CustomerOrderDownloadEvent;
-import com.example.order.service.CustomerOrderService;
-import com.example.order.streams.CustomerOrderStreams;
+import com.example.customer.order.service.CustomerOrderService;
+import com.example.customer.order.streams.CustomerOrderStreams;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,19 +1,19 @@
-package com.example.order.dto.converter;
+package com.example.customer.order.dto.converter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.example.customer.order.db.CustomerOrder;
+import com.example.customer.order.db.CustomerOrderLine;
 import com.example.customer.order.dto.requests.CustomerOrderCreationRequestDTO;
 import com.example.customer.order.dto.requests.CustomerOrderLineCreationRequestDTO;
 import com.example.customer.order.dto.requests.CustomerOrderUpdateRequestDTO;
 import com.example.customer.order.dto.responses.CustomerOrderDTO;
 import com.example.customer.order.dto.responses.CustomerOrderLineDTO;
-import com.example.order.db.CustomerOrder;
-import com.example.order.db.CustomerOrderLine;
-import com.example.order.service.CustomerOrderServiceImpl.OrderLineStatus;
-import com.example.order.service.CustomerOrderServiceImpl.OrderStatus;
+import com.example.customer.order.service.CustomerOrderServiceImpl.OrderLineStatus;
+import com.example.customer.order.service.CustomerOrderServiceImpl.OrderStatus;
 
 @Component
 public class CustomerOrderDTOConverter {

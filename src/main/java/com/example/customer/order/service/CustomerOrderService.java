@@ -1,4 +1,4 @@
-package com.example.order.service;
+package com.example.customer.order.service;
 
 import com.example.customer.order.dto.requests.CustomerOrderCreationRequestDTO;
 import com.example.customer.order.dto.requests.CustomerOrderLineStatusUpdateRequestDTO;

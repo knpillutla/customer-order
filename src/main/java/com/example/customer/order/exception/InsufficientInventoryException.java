@@ -1,4 +1,4 @@
-package com.example.order.exception;
+package com.example.customer.order.exception;
 
 public class InsufficientInventoryException extends Exception{
 

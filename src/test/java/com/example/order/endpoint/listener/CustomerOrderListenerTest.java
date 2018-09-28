@@ -3,7 +3,7 @@ package com.example.order.endpoint.listener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.order.streams.CustomerOrderStreams;
+import com.example.customer.order.streams.CustomerOrderStreams;
 import com.example.util.service.EventPublisher;
 
 import lombok.extern.slf4j.Slf4j;
