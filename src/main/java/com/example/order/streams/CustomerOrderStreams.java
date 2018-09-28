@@ -11,11 +11,11 @@ public interface CustomerOrderStreams {
     //public String INVENTORY_OUTPUT="inventory-out";
     
     @Input(CUSTOMER_ORDERS_INPUT)
-    public SubscribableChannel inboundOrders();
+    public SubscribableChannel inboundCustomerOrders();
     
     //@Input(INVENTORY_OUTPUT)
     //public SubscribableChannel outboundInventory();
 
     @Output(CUSTOMER_ORDERS_OUTPUT)
-    public MessageChannel outboundOrders();
+    public MessageChannel outboundCustomerOrders();
 }
