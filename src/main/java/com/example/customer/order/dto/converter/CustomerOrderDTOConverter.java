@@ -30,7 +30,7 @@ public class CustomerOrderDTOConverter {
 				orderEntity.getStatCode(), orderEntity.getOrderDttm(), orderEntity.getShipByDttm(),
 				orderEntity.getExpectedDeliveryDttm(), orderEntity.getDeliveryType(), orderEntity.isGift(),
 				orderEntity.getGiftMsg(), orderEntity.getSource(), orderEntity.getTransactionName(),
-				orderEntity.getRefField1(), orderEntity.getRefField2(), orderEntity.getUpdatedDttm(),
+				orderEntity.getRefField1(), orderEntity.getRefField2(),
 				orderEntity.getUpdatedBy(), orderLineDTOList);
 		return orderDTO;
 	}
@@ -63,7 +63,6 @@ public class CustomerOrderDTOConverter {
 		orderEntity.setRefField1(orderUpdateReqDTO.getRefField1());
 		orderEntity.setRefField2(orderUpdateReqDTO.getRefField2());
 		orderEntity.setSource(orderUpdateReqDTO.getSource());
-		orderEntity.setUpdatedDttm(new java.util.Date());
 		return orderEntity;
 	}
 
