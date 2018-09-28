@@ -1,7 +1,6 @@
 package com.example.customer.order.db;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,8 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -100,11 +97,11 @@ public class CustomerOrder  implements Serializable{
 
     @CreatedDate
 	@Column(name="CREATED_DTTM", nullable = false, updatable = false)
-    LocalDateTime createdDttm;
+    Date createdDttm;
 	
     @Column(name = "UPDATED_DTTM", nullable = false)
     @LastModifiedDate
-	LocalDateTime updatedDttm;
+	Date updatedDttm;
 	
 	@Column(name="CREATED_BY")
 	String createdBy;
