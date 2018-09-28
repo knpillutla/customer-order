@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.example.customer.order.dto.requests.CustomerOrderCreationRequestDTO;
+import com.example.customer.order.dto.requests.CustomerOrderLineCreationRequestDTO;
+import com.example.customer.order.dto.requests.CustomerOrderUpdateRequestDTO;
+import com.example.customer.order.dto.responses.CustomerOrderDTO;
+import com.example.customer.order.dto.responses.CustomerOrderLineDTO;
 import com.example.order.db.CustomerOrder;
 import com.example.order.db.CustomerOrderLine;
-import com.example.order.dto.requests.CustomerOrderCreationRequestDTO;
-import com.example.order.dto.requests.CustomerOrderLineCreationRequestDTO;
-import com.example.order.dto.requests.CustomerOrderUpdateRequestDTO;
-import com.example.order.dto.responses.CustomerOrderDTO;
-import com.example.order.dto.responses.CustomerOrderLineDTO;
 import com.example.order.service.CustomerOrderServiceImpl.OrderLineStatus;
 import com.example.order.service.CustomerOrderServiceImpl.OrderStatus;
 

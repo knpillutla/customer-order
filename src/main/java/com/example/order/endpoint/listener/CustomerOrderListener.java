@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.stereotype.Component;
 
-import com.example.order.dto.events.CustomerOrderDownloadEvent;
+import com.example.customer.order.dto.events.CustomerOrderDownloadEvent;
 import com.example.order.service.CustomerOrderService;
 import com.example.order.streams.CustomerOrderStreams;
 

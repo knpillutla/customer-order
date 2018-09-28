@@ -9,7 +9,7 @@ import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MimeTypeUtils;
 
-import com.example.order.dto.events.BaseEvent;
+import com.example.customer.order.dto.events.BaseEvent;
 import com.example.order.streams.CustomerOrderStreams;
 
 import lombok.extern.slf4j.Slf4j;

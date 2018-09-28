@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.order.dto.events.CustomerOrderCreationFailedEvent;
-import com.example.order.dto.events.CustomerOrderUpdateFailedEvent;
-import com.example.order.dto.requests.CustomerOrderCreationRequestDTO;
-import com.example.order.dto.requests.CustomerOrderUpdateRequestDTO;
+import com.example.customer.order.dto.events.CustomerOrderCreationFailedEvent;
+import com.example.customer.order.dto.events.CustomerOrderUpdateFailedEvent;
+import com.example.customer.order.dto.requests.CustomerOrderCreationRequestDTO;
+import com.example.customer.order.dto.requests.CustomerOrderUpdateRequestDTO;
 import com.example.order.service.CustomerOrderService;
 
 import io.swagger.annotations.Api;

@@ -1,13 +1,8 @@
 package com.example.order.endpoint.listener;
 
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.order.dto.requests.CustomerOrderCreationRequestDTO;
 import com.example.order.service.EventPublisher;
 import com.example.order.streams.CustomerOrderStreams;
 
