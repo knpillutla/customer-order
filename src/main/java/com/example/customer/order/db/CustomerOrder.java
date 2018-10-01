@@ -1,8 +1,8 @@
 package com.example.customer.order.db;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -64,13 +64,13 @@ public class CustomerOrder  implements Serializable{
 	Integer statCode;
 
 	@Column(name="ORDER_DTTM")
-	Date orderDttm;
+	LocalDateTime orderDttm;
 
 	@Column(name="SHIP_BY_DTTM")
-	Date shipByDttm;
+	LocalDateTime shipByDttm;
 
 	@Column(name="EXPECTED_DELIVERY_DTTM")
-	Date expectedDeliveryDttm;
+	LocalDateTime expectedDeliveryDttm;
 
 	@Column(name="DELIVERY_TYPE")
 	String deliveryType;
@@ -98,11 +98,11 @@ public class CustomerOrder  implements Serializable{
 
     @CreatedDate
 	@Column(name="CREATED_DTTM", nullable = false, updatable = false)
-    Date createdDttm;
+    LocalDateTime createdDttm;
 	
     @Column(name = "UPDATED_DTTM", nullable = false)
     @LastModifiedDate
-	Date updatedDttm;
+	LocalDateTime updatedDttm;
 	
 	@Column(name="CREATED_BY")
 	String createdBy;
@@ -125,7 +125,7 @@ public class CustomerOrder  implements Serializable{
     }
 
 	public CustomerOrder(String busName, Integer locnNbr, String company, String division, String busUnit,
-			String externalBatchNbr, String orderNbr, Date orderDttm, Date shipByDttm, Date expectedDeliveryDttm,
+			String externalBatchNbr, String orderNbr, LocalDateTime orderDttm, LocalDateTime shipByDttm, LocalDateTime expectedDeliveryDttm,
 			String deliveryType, boolean isGift, String giftMsg, String source, String transactionName,
 			String refField1, String refField2, String userId) {
 		this.busName = busName;

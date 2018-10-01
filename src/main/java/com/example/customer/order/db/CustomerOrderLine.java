@@ -1,7 +1,7 @@
 package com.example.customer.order.db;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -89,11 +89,11 @@ public class CustomerOrderLine  implements Serializable{
 
     @CreatedDate
 	@Column(name="CREATED_DTTM", nullable = false, updatable = false)
-    Date createdDttm;
+    LocalDateTime createdDttm;
 	
     @Column(name = "UPDATED_DTTM", nullable = false)
     @LastModifiedDate
-	Date updatedDttm;
+	LocalDateTime updatedDttm;
 	
 	@Column(name="CREATED_BY")
 	String createdBy;
