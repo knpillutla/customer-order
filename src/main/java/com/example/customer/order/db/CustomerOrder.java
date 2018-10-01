@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -109,7 +110,11 @@ public class CustomerOrder  implements Serializable{
  	@Column(name="UPDATED_BY")
 	String updatedBy;
 
-    public void addOrderLine(CustomerOrderLine orderLine) {
+ 	@Version
+ 	@Column(name="VERSION")
+	Integer version;
+
+ 	public void addOrderLine(CustomerOrderLine orderLine) {
     	orderLines.add(orderLine);
     	//orderLine.setOrder(this);
     }

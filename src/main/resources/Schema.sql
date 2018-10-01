@@ -55,6 +55,7 @@ CREATE TABLE CUSTOMER_ORDERS
     UPDATED_DTTM  timestamp not null default NOW(),
     CREATED_BY character varying(25),
     UPDATED_BY character varying(25),
+    VERSION integer,
     unique (BUS_NAME, LOCN_NBR,COMPANY,DIVISION,BUS_UNIT,ORDER_NBR)
 );
 
@@ -83,6 +84,7 @@ CREATE TABLE CUSTOMER_ORDER_LINES
     UPDATED_DTTM  timestamp not null default NOW(),
     CREATED_BY character varying(25),
     UPDATED_BY character varying(25)
+    VERSION integer,
 );
 
 
