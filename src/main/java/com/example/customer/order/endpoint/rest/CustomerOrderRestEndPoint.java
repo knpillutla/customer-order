@@ -33,17 +33,25 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CustomerOrderRestEndPoint {
 
-    @Value("${message: Order Service - Config Server is not working..please check}")
-    private String msg;
-    
     @Autowired
     CustomerOrderService orderService;
 	
-	@GetMapping("/")
-	public ResponseEntity hello() throws Exception {
-		return ResponseEntity.ok(msg);
+    @Value("${wms.service.health.msg: Customer Order Service - Config Server is not working..please check}")
+    private String healthMsg;
+    
+    @Value("${wms.service.ready.msg: Customer Order Service - Not ready yet}")
+    private String readyMsg;
+
+	@GetMapping("/ready")
+	public ResponseEntity ready() throws Exception {
+		return ResponseEntity.ok(readyMsg);
 	}
 	
+	@GetMapping("/health")
+	public ResponseEntity health() throws Exception {
+		return ResponseEntity.ok(healthMsg);
+	}
+
 	@GetMapping("/{busName}/{locnNbr}/order/{id}")
 	public ResponseEntity getById(@PathVariable("busName") String busName, @PathVariable("locnNbr") Integer locnNbr, @PathVariable("id") Long id) throws IOException {
 		try {
