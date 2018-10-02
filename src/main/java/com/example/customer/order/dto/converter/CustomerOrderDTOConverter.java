@@ -28,7 +28,7 @@ public class CustomerOrderDTOConverter {
 				orderEntity.getCompany(), orderEntity.getDivision(), orderEntity.getBusUnit(),
 				orderEntity.getExternalBatchNbr(), orderEntity.getBatchNbr(), orderEntity.getOrderNbr(),
 				orderEntity.getStatCode(), orderEntity.getOrderDttm(), orderEntity.getShipByDttm(),
-				orderEntity.getExpectedDeliveryDttm(), orderEntity.getDeliveryType(), orderEntity.isGift(),
+				orderEntity.getExpectedDeliveryDttm(), orderEntity.getDeliveryType(), orderEntity.getIsGift(),
 				orderEntity.getGiftMsg(), orderEntity.getSource(), orderEntity.getTransactionName(),
 				orderEntity.getRefField1(), orderEntity.getRefField2(),
 				orderEntity.getUpdatedBy(), orderLineDTOList);
@@ -55,7 +55,7 @@ public class CustomerOrderDTOConverter {
 	public CustomerOrder updateOrderEntity(CustomerOrder orderEntity, CustomerOrderUpdateRequestDTO orderUpdateReqDTO) {
 		orderEntity.setExpectedDeliveryDttm(orderUpdateReqDTO.getExpectedDeliveryDttm());
 		orderEntity.setDeliveryType(orderUpdateReqDTO.getDeliveryType());
-		orderEntity.setGift(orderUpdateReqDTO.isGift());
+		orderEntity.setIsGift(orderUpdateReqDTO.isGift());
 		orderEntity.setGiftMsg(orderUpdateReqDTO.getGiftMsg());
 		orderEntity.setShipByDttm(orderUpdateReqDTO.getShipByDttm());
 		orderEntity.setTransactionName(orderUpdateReqDTO.getTransactionName());

@@ -63,16 +63,16 @@ CREATE TABLE CUSTOMER_ORDER_LINES
 (
     ID serial primary key,
 	LOCN_NBR integer not null,
-    ORDER_ID integer not null REFERENCES ORDERS (ID),
+    ORDER_ID integer not null REFERENCES CUSTOMER_ORDERS (ID),
     LINE_NBR integer not null,
     ITEM_BRCD character varying(25) NULL,
     ORIG_ORDER_QTY integer NOT NULL DEFAULT 0,
     ORDER_QTY integer NOT NULL DEFAULT 0,
-    CANCELLED_QTY integer NOT NULL DEFAULT 0,
-    SHORT_QTY integer NOT NULL DEFAULT 0,
-    PICKED_QTY integer NOT NULL DEFAULT 0,
-    PACKED_QTY integer NOT NULL DEFAULT 0,
-    SHIPPED_QTY integer NOT NULL DEFAULT 0,
+    CANCELLED_QTY integer DEFAULT 0,
+    SHORT_QTY integer DEFAULT 0,
+    PICKED_QTY integer DEFAULT 0,
+    PACKED_QTY integer DEFAULT 0,
+    SHIPPED_QTY integer DEFAULT 0,
     STAT_CODE  integer DEFAULT 0,
 	OLPN  character varying(50),
 	SOURCE character varying(50),
@@ -83,8 +83,8 @@ CREATE TABLE CUSTOMER_ORDER_LINES
     CREATED_DTTM  timestamp not null default NOW(),
     UPDATED_DTTM  timestamp not null default NOW(),
     CREATED_BY character varying(25),
-    UPDATED_BY character varying(25)
-    VERSION integer,
+    UPDATED_BY character varying(25),
+    VERSION integer
 );
 
 

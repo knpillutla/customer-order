@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -76,7 +77,8 @@ public class CustomerOrder  implements Serializable{
 	String deliveryType;
 
 	@Column(name="IS_GIFT")
-	boolean isGift;
+	@Convert(converter=BooleanTFConverter.class)
+	Boolean isGift;
 
 	@Column(name="GIFT_MSG")
 	String giftMsg;
