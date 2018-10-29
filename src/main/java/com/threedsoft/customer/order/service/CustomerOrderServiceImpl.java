@@ -1,8 +1,11 @@
 package com.threedsoft.customer.order.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -161,4 +164,26 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 		}
 		return true;
 	}
+	
+	@Override
+	public CustomerOrderResourceDTO deleteOrder(Long id) throws Exception{
+		Optional<CustomerOrder> optionaOrderEntity = orderDAO.findById(id);
+		if(optionaOrderEntity.isPresent()) {
+			CustomerOrder orderEntity = optionaOrderEntity.get();
+			orderDAO.delete(orderEntity);
+			return orderDTOConverter.getOrderDTO(orderEntity);
+		}
+		return null;
+	}
+	
+	@Override
+	public List<CustomerOrderResourceDTO> findByBusNameAndLocnNbr(String busName, Integer locnNbr) throws Exception {
+		PageRequest pageRequest = new PageRequest(0, 20);
+		List<CustomerOrder> orderEntityList = orderDAO.findByBusNameAndLocnNbr(busName, locnNbr, pageRequest);
+		List<CustomerOrderResourceDTO> orderDTOList = new ArrayList();
+		for(CustomerOrder orderEntity : orderEntityList) {
+			orderDTOList.add(orderDTOConverter.getOrderDTO(orderEntity));
+		}
+		return orderDTOList;
+	}	
 }

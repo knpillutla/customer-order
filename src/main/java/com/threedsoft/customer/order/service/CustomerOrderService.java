@@ -1,5 +1,7 @@
 package com.threedsoft.customer.order.service;
 
+import java.util.List;
+
 import com.threedsoft.customer.order.dto.requests.CustomerOrderCreationRequestDTO;
 import com.threedsoft.customer.order.dto.requests.CustomerOrderLineStatusUpdateRequestDTO;
 import com.threedsoft.customer.order.dto.requests.CustomerOrderUpdateRequestDTO;
@@ -10,4 +12,6 @@ public interface CustomerOrderService {
 	public CustomerOrderResourceDTO createOrder(CustomerOrderCreationRequestDTO orderCreationReq) throws Exception;
 	public CustomerOrderResourceDTO updateOrder(CustomerOrderUpdateRequestDTO orderUpdRequest) throws Exception;
 	public CustomerOrderResourceDTO updateOrderLineStatusToReserved(CustomerOrderLineStatusUpdateRequestDTO orderStatusUpdReq) throws Exception;
+	public CustomerOrderResourceDTO deleteOrder(Long id) throws Exception;
+	List<CustomerOrderResourceDTO> findByBusNameAndLocnNbr(String busName, Integer locnNbr) throws Exception;
 }

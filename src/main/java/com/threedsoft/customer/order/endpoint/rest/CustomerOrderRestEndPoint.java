@@ -10,10 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -62,7 +62,15 @@ public class CustomerOrderRestEndPoint {
 			return ResponseEntity.badRequest().body(new ErrorRestResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error Occured for GET request busName:" + busName + ", id:" + id + " : " + e.getMessage()));
 		}
 	}
-
+	@GetMapping("/{busName}/{locnNbr}/order")
+	public ResponseEntity getOrderList(@PathVariable("busName") String busName, @PathVariable("locnNbr") Integer locnNbr) throws IOException {
+		try {
+			return ResponseEntity.ok(orderService.findByBusNameAndLocnNbr(busName, locnNbr));
+		} catch (Exception e) {
+			log.error("Error Occured for busName:" + busName + ", locnNbr:" + locnNbr + " : " + e.getMessage());
+			return ResponseEntity.badRequest().body(new ErrorRestResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error Occured for GET list request busName:" + busName + ",locnNbr:" + locnNbr + " : " + e.getMessage()));
+		}
+	}
 	@PostMapping("/{busName}/{locnNbr}/order/{id}")
 	public ResponseEntity updateOrder(@PathVariable("busName") String busName, @PathVariable("locnNbr") Integer locnNbr, @RequestBody CustomerOrderUpdateRequestDTO orderUpdateReq) throws IOException {
 		try {
@@ -73,7 +81,17 @@ public class CustomerOrderRestEndPoint {
 		}
 	}	
 
-	@PutMapping("/{busName}/{locnNbr}/order")
+	@DeleteMapping("/{busName}/{locnNbr}/order/{id}")
+	public ResponseEntity deleteOrder(@PathVariable("busName") String busName, @PathVariable("locnNbr") Integer locnNbr, @PathVariable("id") Long id) throws IOException {
+		try {
+			return ResponseEntity.ok(orderService.deleteOrder(id));
+		}catch (Exception ex) {
+			log.error("Order Delete Error:", ex);
+			return ResponseEntity.badRequest().body(new ErrorRestResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error occured while updating inventory:" + ex.getMessage()));
+		} 
+	}	
+	
+	@PostMapping("/{busName}/{locnNbr}/order")
 	public ResponseEntity createOrder(@PathVariable("busName") String busName, @PathVariable("locnNbr") Integer locnNbr, @RequestBody CustomerOrderCreationRequestDTO orderCreationReq) throws IOException {
 		long startTime = System.currentTimeMillis();
 		log.info("Received Order Create request for : " + orderCreationReq.toString() + ": at :" + LocalDateTime.now());

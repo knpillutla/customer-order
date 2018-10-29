@@ -63,6 +63,7 @@ public class CustomerOrderDTOConverter {
 		orderEntity.setRefField1(orderUpdateReqDTO.getRefField1());
 		orderEntity.setRefField2(orderUpdateReqDTO.getRefField2());
 		orderEntity.setSource(orderUpdateReqDTO.getSource());
+		orderEntity.setExternalBatchNbr(orderUpdateReqDTO.getExternalBatchNbr());
 		return orderEntity;
 	}
 
