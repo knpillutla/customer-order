@@ -9,7 +9,7 @@ CREATE TABLE CUSTOMER_ORDERS
 	EXT_BATCH_NBR character varying(50),
 	BATCH_NBR character varying(50),
     ORDER_NBR character varying(50),
-    STAT_CODE  integer DEFAULT 0,
+    STATUS  character varying(50),
     ORDER_DTTM timestamp not null, 
     SHIP_BY_DTTM timestamp not null,
     EXPECTED_DELIVERY_DTTM timestamp not null,
@@ -56,13 +56,13 @@ CREATE TABLE CUSTOMER_ORDERS
     CREATED_BY character varying(25),
     UPDATED_BY character varying(25),
     VERSION integer,
+    ARCHIVED integer,
     unique (BUS_NAME, LOCN_NBR,COMPANY,DIVISION,BUS_UNIT,ORDER_NBR)
 );
 
 CREATE TABLE CUSTOMER_ORDER_LINES
 (
     ID serial primary key,
-	LOCN_NBR integer not null,
     ORDER_ID integer not null REFERENCES CUSTOMER_ORDERS (ID),
     LINE_NBR integer not null,
     ITEM_BRCD character varying(25) NULL,
@@ -73,7 +73,7 @@ CREATE TABLE CUSTOMER_ORDER_LINES
     PICKED_QTY integer DEFAULT 0,
     PACKED_QTY integer DEFAULT 0,
     SHIPPED_QTY integer DEFAULT 0,
-    STAT_CODE  integer DEFAULT 0,
+    STATUS  character varying(50),
 	OLPN  character varying(50),
 	SOURCE character varying(50),
 	TRANSACTION_NAME character varying(50),
@@ -84,6 +84,7 @@ CREATE TABLE CUSTOMER_ORDER_LINES
     UPDATED_DTTM  timestamp not null default NOW(),
     CREATED_BY character varying(25),
     UPDATED_BY character varying(25),
+    ARCHIVED integer,
     VERSION integer
 );
 

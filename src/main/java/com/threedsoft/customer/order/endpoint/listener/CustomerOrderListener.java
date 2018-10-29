@@ -48,7 +48,7 @@ public class CustomerOrderListener {
 	 * log.info("Received InventoryAllocatedEvent for: {}" + ": at :" +
 	 * LocalDateTime.now(), inventoryAllocatedEvent); long startTime =
 	 * System.currentTimeMillis(); try {
-	 * orderService.updateOrderLineStatusToReserved(
+	 * orderDtlService.updateOrderLineStatusToReserved(
 	 * CustomerOrderLineStatusUpdateDTOConverter.getOrderLineStatusUpdateDTO(
 	 * inventoryAllocatedEvent)); long endTime = System.currentTimeMillis();
 	 * log.info("Completed InventoryAllocatedEvent for: " + inventoryAllocatedEvent

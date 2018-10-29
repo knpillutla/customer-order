@@ -20,7 +20,7 @@ import com.threedsoft.customer.order.dto.events.CustomerOrderCreationFailedEvent
 import com.threedsoft.customer.order.dto.events.CustomerOrderLineAllocationFailedEvent;
 import com.threedsoft.customer.order.dto.events.CustomerOrderUpdateFailedEvent;
 import com.threedsoft.customer.order.dto.requests.CustomerOrderCreationRequestDTO;
-import com.threedsoft.customer.order.dto.requests.CustomerOrderLineStatusUpdateRequestDTO;
+import com.threedsoft.customer.order.dto.requests.CustomerOrderLineUpdateRequestDTO;
 import com.threedsoft.customer.order.dto.requests.CustomerOrderUpdateRequestDTO;
 import com.threedsoft.customer.order.dto.responses.CustomerOrderResourceDTO;
 import com.threedsoft.customer.order.util.CustomerOrderConstants;
@@ -42,33 +42,6 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 
 	@Autowired
 	CustomerOrderDTOConverter orderDTOConverter;
-
-	public enum OrderStatus {
-		CREATED(100), READY(110), ALLOCATED(120), PARTIALLY_ALLOCATED(121), PICKED(130), PACKED(140), SHIPPED(150),
-		SHORTED(160), CANCELLED(199);
-		OrderStatus(Integer statCode) {
-			this.statCode = statCode;
-		}
-
-		private Integer statCode;
-
-		public Integer getStatCode() {
-			return statCode;
-		}
-	}
-
-	public enum OrderLineStatus {
-		CREATED(100), READY(110), ALLOCATED(120), PICKED(130), PACKED(140), SHIPPED(150), SHORTED(160), CANCELLED(199);
-		OrderLineStatus(Integer statCode) {
-			this.statCode = statCode;
-		}
-
-		private Integer statCode;
-
-		public Integer getStatCode() {
-			return statCode;
-		}
-	}
 
 	@Override
 	@Transactional
@@ -105,9 +78,9 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 			orderResponseDTO = orderDTOConverter.getOrderDTO(savedOrderObj);
 			eventPublisher.publish(new CustomerOrderCreatedEvent(orderResponseDTO, CustomerOrderConstants.CUSTOMER_ORDER_SERVICE_NAME));
 		} catch (Exception ex) {
-			log.error("Created Order Error:" + ex.getMessage(), ex);
+			log.error("Customer Order Creation Error:" + ex.getMessage(), ex);
 			eventPublisher.publish(
-					new CustomerOrderCreationFailedEvent(orderCreationRequestDTO, CustomerOrderConstants.CUSTOMER_ORDER_SERVICE_NAME, "Created Order Error:" + ex.getMessage()));
+					new CustomerOrderCreationFailedEvent(orderCreationRequestDTO, CustomerOrderConstants.CUSTOMER_ORDER_SERVICE_NAME, "Customer Order Creation Error:" + ex.getMessage()));
 			throw ex;
 		}
 		return orderResponseDTO;
@@ -120,58 +93,17 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 	}
 
 	@Override
-	public CustomerOrderResourceDTO updateOrderLineStatusToReserved(CustomerOrderLineStatusUpdateRequestDTO orderLineStatusUpdReq)
-			throws Exception {
-		CustomerOrderResourceDTO orderResponseDTO = null;
-		try {
-			CustomerOrder orderEntity = orderDAO.findByBusNameAndLocnNbrAndOrderNbr(orderLineStatusUpdReq.getBusName(),
-					orderLineStatusUpdReq.getLocnNbr(), orderLineStatusUpdReq.getOrderNbr());
-			CustomerOrderLine orderLine = this.getOrderLine(orderEntity, orderLineStatusUpdReq.getId());
-			orderLine.setStatCode(OrderLineStatus.ALLOCATED.getStatCode());
-			orderEntity.setStatCode(OrderStatus.PARTIALLY_ALLOCATED.getStatCode());
-			orderEntity = orderDAO.save(orderEntity);
-			
-			boolean isEntireOrderReservedForInventory = areAllOrderLinesSameStatus(orderEntity, OrderLineStatus.ALLOCATED.getStatCode());
-
-			if (isEntireOrderReservedForInventory) {
-				orderEntity.setStatCode(OrderStatus.ALLOCATED.getStatCode());
-				orderEntity = orderDAO.save(orderEntity);
-				eventPublisher.publish(new CustomerOrderAllocatedEvent(orderDTOConverter.getOrderDTO(orderEntity), CustomerOrderConstants.CUSTOMER_ORDER_SERVICE_NAME));
-			}
-		} catch (Exception ex) {
-			log.error("Order Line Allocation Failed Error:" + ex.getMessage(), ex);
-			eventPublisher.publish(new CustomerOrderLineAllocationFailedEvent(orderLineStatusUpdReq,CustomerOrderConstants.CUSTOMER_ORDER_SERVICE_NAME,
-					"Order Line Allocation Failed Error:" + ex.getMessage()));
-			throw ex;
-		}
-		return orderResponseDTO;
-	}
-	
-	public CustomerOrderLine getOrderLine(CustomerOrder orderEntity, Long orderDtlId) {
-		for (CustomerOrderLine orderLine : orderEntity.getOrderLines()) {
-			if (orderLine.getId() == orderDtlId) {
-				return orderLine;
-			}
-		}
-		return null;
-	}
-
-	public boolean areAllOrderLinesSameStatus(CustomerOrder orderEntity, Integer statCode) {
-		for (CustomerOrderLine orderLine : orderEntity.getOrderLines()) {
-			if (!(orderLine.getStatCode()==statCode)) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	@Override
+	@Transactional
 	public CustomerOrderResourceDTO deleteOrder(Long id) throws Exception{
 		Optional<CustomerOrder> optionaOrderEntity = orderDAO.findById(id);
 		if(optionaOrderEntity.isPresent()) {
 			CustomerOrder orderEntity = optionaOrderEntity.get();
-			orderDAO.delete(orderEntity);
-			return orderDTOConverter.getOrderDTO(orderEntity);
+			orderEntity.setArchived(1);
+			for(CustomerOrderLine orderLine : orderEntity.getOrderLines()) {
+				orderLine.setArchived(1);
+			}
+			CustomerOrder archivedOrderEntity = orderDAO.save(orderEntity);
+			return orderDTOConverter.getOrderDTO(archivedOrderEntity);
 		}
 		return null;
 	}

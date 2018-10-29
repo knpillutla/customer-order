@@ -61,8 +61,8 @@ public class CustomerOrder  implements Serializable{
 	@Column(name="ORDER_NBR")
 	String orderNbr;
 
-	@Column(name="STAT_CODE")
-	Integer statCode;
+	@Column(name="STATUS")
+	String status;
 
 	@Column(name="ORDER_DTTM")
 	LocalDateTime orderDttm;
@@ -115,6 +115,9 @@ public class CustomerOrder  implements Serializable{
  	@Version
  	@Column(name="VERSION")
 	Integer version;
+
+ 	@Column(name="ARCHIVED")
+	Integer archived;
 
  	public void addOrderLine(CustomerOrderLine orderLine) {
     	orderLines.add(orderLine);

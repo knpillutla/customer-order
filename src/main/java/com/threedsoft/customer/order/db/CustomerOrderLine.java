@@ -32,15 +32,12 @@ public class CustomerOrderLine  implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="ORDER_ID", nullable=false)
     private CustomerOrder order;
 
 	@Column(name="LINE_NBR")
 	Integer orderLineNbr;
-
-	@Column(name="LOCN_NBR")
-	Integer locnNbr;
 
 	@Column(name="ITEM_BRCD")
 	String itemBrcd;
@@ -66,8 +63,8 @@ public class CustomerOrderLine  implements Serializable{
 	@Column(name="SHIPPED_QTY")
 	Integer shippedQty;
 
-	@Column(name="STAT_CODE")
-	Integer statCode;
+	@Column(name="STATUS")
+	String status;
 
 	@Column(name="OLPN")
 	String olpn;
@@ -105,10 +102,12 @@ public class CustomerOrderLine  implements Serializable{
  	@Column(name="VERSION")
 	Integer version;
 
-	public CustomerOrderLine(Integer locnNbr, Integer orderLineNbr, String itemBrcd, Integer origOrderQty,
+ 	@Column(name="ARCHIVED")
+	Integer archived;
+	
+	public CustomerOrderLine(Integer orderLineNbr, String itemBrcd, Integer origOrderQty,
 			Integer orderQty, String source, String transactionName,
 			String refField1, String refField2, String userId) {
-		this.locnNbr = locnNbr;
 		this.orderLineNbr = orderLineNbr;
 		this.itemBrcd = itemBrcd;
 		this.origOrderQty = origOrderQty;
