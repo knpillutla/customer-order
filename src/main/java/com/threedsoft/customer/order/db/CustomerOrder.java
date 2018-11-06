@@ -34,8 +34,8 @@ public class CustomerOrder  implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-	List<CustomerOrderLine> orderLines = new ArrayList<>();
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "order")
+	List<CustomerOrderLine> orderLines;
 	
 	@Column(name="BUS_NAME")
 	String busName;
@@ -77,8 +77,8 @@ public class CustomerOrder  implements Serializable{
 	String deliveryType;
 
 	@Column(name="IS_GIFT")
-	@Convert(converter=BooleanTFConverter.class)
-	Boolean isGift;
+//	@Convert(converter=BooleanTFConverter.class)
+	String isGift;
 
 	@Column(name="GIFT_MSG")
 	String giftMsg;
@@ -131,7 +131,7 @@ public class CustomerOrder  implements Serializable{
 
 	public CustomerOrder(String busName, Integer locnNbr, String company, String division, String busUnit,
 			String externalBatchNbr, String orderNbr, LocalDateTime orderDttm, LocalDateTime shipByDttm, LocalDateTime expectedDeliveryDttm,
-			String deliveryType, boolean isGift, String giftMsg, String source, String transactionName,
+			String deliveryType, String isGift, String giftMsg, String source, String transactionName,
 			String refField1, String refField2, String userId) {
 		this.busName = busName;
 		this.locnNbr = locnNbr;

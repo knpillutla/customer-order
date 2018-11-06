@@ -16,14 +16,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.threedsoft.customer.order.dto.events.CustomerOrderCreationFailedEvent;
-import com.threedsoft.customer.order.dto.events.CustomerOrderUpdateFailedEvent;
 import com.threedsoft.customer.order.dto.requests.CustomerOrderCreationRequestDTO;
+import com.threedsoft.customer.order.dto.requests.CustomerOrderSearchRequestDTO;
 import com.threedsoft.customer.order.dto.requests.CustomerOrderUpdateRequestDTO;
 import com.threedsoft.customer.order.dto.responses.CustomerOrderResourceDTO;
 import com.threedsoft.customer.order.service.CustomerOrderService;
-import com.threedsoft.customer.order.util.CustomerOrderConstants;
 import com.threedsoft.util.dto.ErrorResourceDTO;
 
 import io.swagger.annotations.Api;
@@ -57,9 +56,9 @@ public class CustomerOrderRestEndPoint {
 
 	@GetMapping("/{busName}/{locnNbr}/order/{id}")
 	public ResponseEntity getById(@PathVariable("busName") String busName, @PathVariable("locnNbr") Integer locnNbr,
-			@PathVariable("id") Long id) throws IOException {
+			@PathVariable("id") Long id, @RequestParam(name = "details", required=false, defaultValue="false") Boolean isRetrieveDetails) throws IOException {
 		try {
-			return ResponseEntity.ok(orderService.findById(busName, locnNbr, id));
+			return ResponseEntity.ok(orderService.findById(busName, locnNbr, id, isRetrieveDetails));
 		} catch (Exception e) {
 			log.error("Error Occured for busName:" + busName + ", id:" + id + " : " + e.getMessage());
 			return ResponseEntity.badRequest()
@@ -133,4 +132,26 @@ public class CustomerOrderRestEndPoint {
 				+ " : total time:" + (endTime - startTime) / 1000.00 + " secs");
 		return resEntity;
 	}
+
+	@PostMapping("/{busName}/{locnNbr}/order/search")
+	public ResponseEntity searchOrders(@PathVariable("busName") String busName, @PathVariable("locnNbr") Integer locnNbr,
+			@RequestBody CustomerOrderSearchRequestDTO orderSearchReq) throws IOException {
+		long startTime = System.currentTimeMillis();
+		log.info("Received Order search request for : " + orderSearchReq.toString() + ": at :" + LocalDateTime.now());
+		ResponseEntity resEntity = null;
+		try {
+			resEntity = ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON)
+					.body(orderService.searchOrder(orderSearchReq));
+		} catch (Exception e) {
+			e.printStackTrace();
+			resEntity = ResponseEntity.badRequest()
+					.body(new ErrorResourceDTO(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+							"Error occured while searching for orders:" + e.getMessage(), orderSearchReq));
+		}
+		long endTime = System.currentTimeMillis();
+		log.info("Completed Order search request for : " + orderSearchReq.toString() + ": at :" + LocalDateTime.now()
+				+ " : total time:" + (endTime - startTime) / 1000.00 + " secs");
+		return resEntity;
+	}
+
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,13 +15,11 @@ import com.threedsoft.customer.order.db.CustomerOrderLine;
 import com.threedsoft.customer.order.db.CustomerOrderLineRepository;
 import com.threedsoft.customer.order.db.CustomerOrderRepository;
 import com.threedsoft.customer.order.dto.converter.CustomerOrderDTOConverter;
-import com.threedsoft.customer.order.dto.events.CustomerOrderAllocatedEvent;
 import com.threedsoft.customer.order.dto.events.CustomerOrderCreatedEvent;
 import com.threedsoft.customer.order.dto.events.CustomerOrderCreationFailedEvent;
-import com.threedsoft.customer.order.dto.events.CustomerOrderLineAllocationFailedEvent;
 import com.threedsoft.customer.order.dto.events.CustomerOrderUpdateFailedEvent;
 import com.threedsoft.customer.order.dto.requests.CustomerOrderCreationRequestDTO;
-import com.threedsoft.customer.order.dto.requests.CustomerOrderLineUpdateRequestDTO;
+import com.threedsoft.customer.order.dto.requests.CustomerOrderSearchRequestDTO;
 import com.threedsoft.customer.order.dto.requests.CustomerOrderUpdateRequestDTO;
 import com.threedsoft.customer.order.dto.responses.CustomerOrderResourceDTO;
 import com.threedsoft.customer.order.util.CustomerOrderConstants;
@@ -35,13 +34,13 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 	CustomerOrderRepository orderDAO;
 
 	@Autowired
-	CustomerOrderLineRepository orderLineDAO;
-
-	@Autowired
 	EventPublisher eventPublisher;
 
 	@Autowired
 	CustomerOrderDTOConverter orderDTOConverter;
+
+	@Autowired
+	CustomerOrderDtlService orderDtlService;
 
 	@Override
 	@Transactional
@@ -87,8 +86,9 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 	}
 
 	@Override
-	public CustomerOrderResourceDTO findById(String busName, Integer locnNbr, Long id) throws Exception {
+	public CustomerOrderResourceDTO findById(String busName, Integer locnNbr, Long id, Boolean isRetrieveDetails) throws Exception {
 		CustomerOrder orderEntity = orderDAO.findById(busName, locnNbr, id);
+		if(isRetrieveDetails) orderEntity.getOrderLines();
 		return orderDTOConverter.getOrderDTO(orderEntity);
 	}
 
@@ -111,7 +111,21 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 	@Override
 	public List<CustomerOrderResourceDTO> findByBusNameAndLocnNbr(String busName, Integer locnNbr) throws Exception {
 		PageRequest pageRequest = new PageRequest(0, 20);
-		List<CustomerOrder> orderEntityList = orderDAO.findByBusNameAndLocnNbr(busName, locnNbr, pageRequest);
+		List<CustomerOrder> orderEntityList = orderDAO.findByBusNameAndLocnNbrNoDtls(busName, locnNbr, pageRequest);
+		List<CustomerOrderResourceDTO> orderDTOList = new ArrayList();
+		for(CustomerOrder orderEntity : orderEntityList) {
+			orderDTOList.add(orderDTOConverter.getOrderDTO(orderEntity));
+		}
+		return orderDTOList;
+	}
+
+	@Override
+	public List<CustomerOrderResourceDTO> searchOrder(CustomerOrderSearchRequestDTO orderSearchRequestDTO) {
+		PageRequest pageRequest = new PageRequest(0, 20);
+		
+		CustomerOrder customerOrderByExample = orderDTOConverter.getOrderEntityForSearch(orderSearchRequestDTO);
+		List<CustomerOrder> orderEntityList = orderDAO.findAll(Example.of(customerOrderByExample));	
+		
 		List<CustomerOrderResourceDTO> orderDTOList = new ArrayList();
 		for(CustomerOrder orderEntity : orderEntityList) {
 			orderDTOList.add(orderDTOConverter.getOrderDTO(orderEntity));

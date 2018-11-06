@@ -24,4 +24,7 @@ public interface CustomerOrderRepository extends JpaRepository<CustomerOrder, Lo
 	
 	@Query("select o from CustomerOrder o inner join fetch o.orderLines ol where o.busName=:busName and o.locnNbr=:locnNbr order by o.id")
 	public List<CustomerOrder> findByBusNameAndLocnNbr(@Param("busName") String busName, @Param("locnNbr") Integer locnNbr, Pageable pageRequest);
+
+	@Query("select o from CustomerOrder o where o.busName=:busName and o.locnNbr=:locnNbr order by o.id")
+	public List<CustomerOrder> findByBusNameAndLocnNbrNoDtls(@Param("busName") String busName, @Param("locnNbr") Integer locnNbr, Pageable pageRequest);
 }

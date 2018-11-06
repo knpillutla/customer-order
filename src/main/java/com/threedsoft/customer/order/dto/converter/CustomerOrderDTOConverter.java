@@ -10,6 +10,7 @@ import com.threedsoft.customer.order.db.CustomerOrder;
 import com.threedsoft.customer.order.db.CustomerOrderLine;
 import com.threedsoft.customer.order.dto.requests.CustomerOrderCreationRequestDTO;
 import com.threedsoft.customer.order.dto.requests.CustomerOrderLineCreationRequestDTO;
+import com.threedsoft.customer.order.dto.requests.CustomerOrderSearchRequestDTO;
 import com.threedsoft.customer.order.dto.requests.CustomerOrderUpdateRequestDTO;
 import com.threedsoft.customer.order.dto.responses.CustomerOrderLineResourceDTO;
 import com.threedsoft.customer.order.dto.responses.CustomerOrderResourceDTO;
@@ -21,11 +22,14 @@ public class CustomerOrderDTOConverter {
 
 	@Autowired
 	CustomerOrderLineDTOConverter orderLineConverter;
+
 	public CustomerOrderResourceDTO getOrderDTO(CustomerOrder orderEntity) {
 		List<CustomerOrderLineResourceDTO> orderLineDTOList = new ArrayList();
-		for (CustomerOrderLine orderLine : orderEntity.getOrderLines()) {
-			CustomerOrderLineResourceDTO orderLineDTO = orderLineConverter.getOrderLineDTO(orderLine);
-			orderLineDTOList.add(orderLineDTO);
+		if (orderEntity.getOrderLines() != null) {
+			for (CustomerOrderLine orderLine : orderEntity.getOrderLines()) {
+				CustomerOrderLineResourceDTO orderLineDTO = orderLineConverter.getOrderLineDTO(orderLine);
+				orderLineDTOList.add(orderLineDTO);
+			}
 		}
 		CustomerOrderResourceDTO orderDTO = new CustomerOrderResourceDTO(orderEntity.getId(), orderEntity.getBusName(),
 				orderEntity.getLocnNbr(), orderEntity.getCompany(), orderEntity.getDivision(), orderEntity.getBusUnit(),
@@ -33,7 +37,8 @@ public class CustomerOrderDTOConverter {
 				orderEntity.getStatus(), orderEntity.getOrderDttm(), orderEntity.getShipByDttm(),
 				orderEntity.getExpectedDeliveryDttm(), orderEntity.getDeliveryType(), orderEntity.getIsGift(),
 				orderEntity.getGiftMsg(), orderEntity.getSource(), orderEntity.getTransactionName(),
-				orderEntity.getRefField1(), orderEntity.getRefField2(), orderEntity.getUpdatedBy(), orderEntity.getArchived(), orderLineDTOList);
+				orderEntity.getRefField1(), orderEntity.getRefField2(), orderEntity.getUpdatedBy(),
+				orderEntity.getArchived(), orderLineDTOList);
 		return orderDTO;
 	}
 
@@ -44,7 +49,7 @@ public class CustomerOrderDTOConverter {
 				orderCreationRequestDTO.getExternalBatchNbr(), orderCreationRequestDTO.getOrderNbr(),
 				orderCreationRequestDTO.getOrderDttm(), orderCreationRequestDTO.getShipByDttm(),
 				orderCreationRequestDTO.getExpectedDeliveryDttm(), orderCreationRequestDTO.getDeliveryType(),
-				orderCreationRequestDTO.isGift(), orderCreationRequestDTO.getGiftMsg(),
+				orderCreationRequestDTO.getIsGift(), orderCreationRequestDTO.getGiftMsg(),
 				orderCreationRequestDTO.getSource(), orderCreationRequestDTO.getTransactionName(),
 				orderCreationRequestDTO.getRefField1(), orderCreationRequestDTO.getRefField2(),
 				orderCreationRequestDTO.getUserId());
@@ -60,10 +65,23 @@ public class CustomerOrderDTOConverter {
 		return orderEntity;
 	}
 
+	public CustomerOrder getOrderEntityForSearch(CustomerOrderSearchRequestDTO orderSearchRequestDTO) {
+		CustomerOrder orderEntity = new CustomerOrder(orderSearchRequestDTO.getBusName(),
+				orderSearchRequestDTO.getLocnNbr(), orderSearchRequestDTO.getCompany(),
+				orderSearchRequestDTO.getDivision(), orderSearchRequestDTO.getBusUnit(),
+				orderSearchRequestDTO.getExternalBatchNbr(), orderSearchRequestDTO.getOrderNbr(),
+				orderSearchRequestDTO.getOrderDttm(), orderSearchRequestDTO.getShipByDttm(),
+				orderSearchRequestDTO.getExpectedDeliveryDttm(), orderSearchRequestDTO.getDeliveryType(),
+				orderSearchRequestDTO.getIsGift(), null, null, null, orderSearchRequestDTO.getRefField1(),
+				orderSearchRequestDTO.getRefField2(), null);
+		orderEntity.setStatus(orderSearchRequestDTO.getStatus());
+		return orderEntity;
+	}
+
 	public CustomerOrder updateOrderEntity(CustomerOrder orderEntity, CustomerOrderUpdateRequestDTO orderUpdateReqDTO) {
 		orderEntity.setExpectedDeliveryDttm(orderUpdateReqDTO.getExpectedDeliveryDttm());
 		orderEntity.setDeliveryType(orderUpdateReqDTO.getDeliveryType());
-		orderEntity.setIsGift(orderUpdateReqDTO.isGift());
+		orderEntity.setIsGift(orderUpdateReqDTO.getIsGift());
 		orderEntity.setGiftMsg(orderUpdateReqDTO.getGiftMsg());
 		orderEntity.setShipByDttm(orderUpdateReqDTO.getShipByDttm());
 		orderEntity.setTransactionName(orderUpdateReqDTO.getTransactionName());
@@ -75,27 +93,33 @@ public class CustomerOrderDTOConverter {
 		return orderEntity;
 	}
 
-/*	public CustomerOrderLineResourceDTO getOrderLineDTO(CustomerOrderLine orderLine) {
-		CustomerOrder order = orderLine.getOrder();
-		CustomerOrderLineResourceDTO orderLineDTO = new CustomerOrderLineResourceDTO(orderLine.getId(),
-				orderLine.getOrder().getId(), orderLine.getOrderLineNbr(), order.getOrderNbr(), order.getBusName(),
-				order.getLocnNbr(), order.getCompany(), order.getDivision(), order.getBusUnit(),
-				orderLine.getItemBrcd(), orderLine.getOrigOrderQty(), orderLine.getOrderQty(),
-				orderLine.getCancelledQty(), orderLine.getShortQty(), orderLine.getPickedQty(),
-				orderLine.getPackedQty(), orderLine.getShippedQty(), orderLine.getStatus(), orderLine.getOlpn(),
-				orderLine.getSource(), orderLine.getTransactionName(), orderLine.getRefField1(),
-				orderLine.getRefField2(), orderLine.getUpdatedDttm(), orderLine.getUpdatedBy());
-		return orderLineDTO;
-	}
-
-	public CustomerOrderLine getOrderLineEntity(CustomerOrderLineCreationRequestDTO orderLineCreationRequestDTO,
-			CustomerOrderCreationRequestDTO orderCreationRequestDTO) {
-		CustomerOrderLine orderLine = new CustomerOrderLine(orderLineCreationRequestDTO.getOrderLineNbr(),
-				orderLineCreationRequestDTO.getItemBrcd(), orderLineCreationRequestDTO.getOrigOrderQty(),
-				orderLineCreationRequestDTO.getOrderQty(), orderCreationRequestDTO.getSource(),
-				orderCreationRequestDTO.getTransactionName(), orderLineCreationRequestDTO.getRefField1(),
-				orderLineCreationRequestDTO.getRefField2(), orderCreationRequestDTO.getUserId());
-		return orderLine;
-	}
-*/
+	/*
+	 * public CustomerOrderLineResourceDTO getOrderLineDTO(CustomerOrderLine
+	 * orderLine) { CustomerOrder order = orderLine.getOrder();
+	 * CustomerOrderLineResourceDTO orderLineDTO = new
+	 * CustomerOrderLineResourceDTO(orderLine.getId(), orderLine.getOrder().getId(),
+	 * orderLine.getOrderLineNbr(), order.getOrderNbr(), order.getBusName(),
+	 * order.getLocnNbr(), order.getCompany(), order.getDivision(),
+	 * order.getBusUnit(), orderLine.getItemBrcd(), orderLine.getOrigOrderQty(),
+	 * orderLine.getOrderQty(), orderLine.getCancelledQty(),
+	 * orderLine.getShortQty(), orderLine.getPickedQty(), orderLine.getPackedQty(),
+	 * orderLine.getShippedQty(), orderLine.getStatus(), orderLine.getOlpn(),
+	 * orderLine.getSource(), orderLine.getTransactionName(),
+	 * orderLine.getRefField1(), orderLine.getRefField2(),
+	 * orderLine.getUpdatedDttm(), orderLine.getUpdatedBy()); return orderLineDTO; }
+	 * 
+	 * public CustomerOrderLine
+	 * getOrderLineEntity(CustomerOrderLineCreationRequestDTO
+	 * orderLineCreationRequestDTO, CustomerOrderCreationRequestDTO
+	 * orderCreationRequestDTO) { CustomerOrderLine orderLine = new
+	 * CustomerOrderLine(orderLineCreationRequestDTO.getOrderLineNbr(),
+	 * orderLineCreationRequestDTO.getItemBrcd(),
+	 * orderLineCreationRequestDTO.getOrigOrderQty(),
+	 * orderLineCreationRequestDTO.getOrderQty(),
+	 * orderCreationRequestDTO.getSource(),
+	 * orderCreationRequestDTO.getTransactionName(),
+	 * orderLineCreationRequestDTO.getRefField1(),
+	 * orderLineCreationRequestDTO.getRefField2(),
+	 * orderCreationRequestDTO.getUserId()); return orderLine; }
+	 */
 }
