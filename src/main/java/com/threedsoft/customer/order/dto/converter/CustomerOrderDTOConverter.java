@@ -54,6 +54,7 @@ public class CustomerOrderDTOConverter {
 				orderCreationRequestDTO.getRefField1(), orderCreationRequestDTO.getRefField2(),
 				orderCreationRequestDTO.getUserId());
 		List<CustomerOrderLine> orderLineList = new ArrayList();
+		orderEntity.setOrderLines(orderLineList);
 		for (CustomerOrderLineCreationRequestDTO orderLineCreationRequestDTO : orderCreationRequestDTO
 				.getOrderLines()) {
 			CustomerOrderLine orderLineEntity = orderLineConverter.getOrderLineEntity(orderLineCreationRequestDTO);
