@@ -55,12 +55,15 @@ public class CustomerOrderDTOConverter {
 				orderCreationRequestDTO.getUserId());
 		List<CustomerOrderLine> orderLineList = new ArrayList();
 		orderEntity.setOrderLines(orderLineList);
-		for (CustomerOrderLineCreationRequestDTO orderLineCreationRequestDTO : orderCreationRequestDTO
-				.getOrderLines()) {
-			CustomerOrderLine orderLineEntity = orderLineConverter.getOrderLineEntity(orderLineCreationRequestDTO);
-			orderLineEntity.setStatus(OrderLineStatus.READY.getStatus());
-			orderEntity.addOrderLine(orderLineEntity);
-			orderLineEntity.setOrder(orderEntity);
+		if(orderCreationRequestDTO
+				.getOrderLines() != null) {
+			for (CustomerOrderLineCreationRequestDTO orderLineCreationRequestDTO : orderCreationRequestDTO
+					.getOrderLines()) {
+				CustomerOrderLine orderLineEntity = orderLineConverter.getOrderLineEntity(orderLineCreationRequestDTO);
+				orderLineEntity.setStatus(OrderLineStatus.READY.getStatus());
+				orderEntity.addOrderLine(orderLineEntity);
+				orderLineEntity.setOrder(orderEntity);
+			}
 		}
 		orderEntity.setStatus(OrderStatus.READY.getStatus());
 		return orderEntity;
