@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -28,6 +29,7 @@ import lombok.Data;
 @Data
 @Table(name="CUSTOMER_ORDERS")
 @EntityListeners(AuditingEntityListener.class)
+@DynamicUpdate
 public class CustomerOrder  implements Serializable{
 	@Column(name="ID")
 	@Id

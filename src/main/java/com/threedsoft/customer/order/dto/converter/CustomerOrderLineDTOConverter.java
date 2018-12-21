@@ -35,15 +35,15 @@ public class CustomerOrderLineDTOConverter {
 
 	public void updateOrderLineEntity(CustomerOrderLine orderLineEntity,
 			CustomerOrderLineUpdateRequestDTO orderLineUpdateRequestDTO) {
-		orderLineEntity.setOrigOrderQty(orderLineUpdateRequestDTO.getOrigOrderQty());
+		//orderLineEntity.setOrigOrderQty(orderLineUpdateRequestDTO.getOrigOrderQty());
 		orderLineEntity.setOrderQty(orderLineUpdateRequestDTO.getOrderQty());
-		orderLineEntity.setRefField1(orderLineUpdateRequestDTO.getRefField1());
-		orderLineEntity.setRefField2(orderLineUpdateRequestDTO.getRefField2());
-		orderLineEntity.setSource(orderLineUpdateRequestDTO.getSource());
-		orderLineEntity.setTransactionName(orderLineUpdateRequestDTO.getTransactionName());
-		orderLineEntity.setUpdatedBy(orderLineUpdateRequestDTO.getUserId());
-		orderLineEntity.setItemBrcd(orderLineUpdateRequestDTO.getItemBrcd());
-		orderLineEntity.setOrderLineNbr(orderLineUpdateRequestDTO.getOrderLineNbr());
+		//orderLineEntity.setRefField1(orderLineUpdateRequestDTO.getRefField1());
+		//orderLineEntity.setRefField2(orderLineUpdateRequestDTO.getRefField2());
+		//orderLineEntity.setSource(orderLineUpdateRequestDTO.getSource());
+		//orderLineEntity.setTransactionName(orderLineUpdateRequestDTO.getTransactionName());
+		//orderLineEntity.setUpdatedBy(orderLineUpdateRequestDTO.getUserId());
+		//orderLineEntity.setItemBrcd(orderLineUpdateRequestDTO.getItemBrcd());
+		//orderLineEntity.setOrderLineNbr(orderLineUpdateRequestDTO.getOrderLineNbr());
 	}
 
 }

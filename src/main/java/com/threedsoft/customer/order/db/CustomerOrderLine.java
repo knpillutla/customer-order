@@ -15,23 +15,27 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
 @Data
 @Table(name="CUSTOMER_ORDER_LINES")
 @EntityListeners(AuditingEntityListener.class)
+@DynamicUpdate
 public class CustomerOrderLine  implements Serializable{
 	@Column(name="ID")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="ORDER_ID", nullable=false)
     private CustomerOrder order;
 
